@@ -6,7 +6,7 @@ from tkinter import filedialog
 import json
 import threading
 
-client_id = "1168512222453047356"
+client_id = "your_application_id" # you can visit the discord developar portal to generate one.
 
 def update_presence():
     try:
@@ -50,12 +50,8 @@ def update_presence():
         status_label.config(text="Presence updated")
     except Exception as e:
         status_label.config(text="Error: " + str(e))
-
-# Function to handle the "Exit" menu option
 def exit_application():
     root.quit()
-
-# Function to save presence data to a file
 def save_presence():
     presence_data = {
         "state": state_entry.get(),
@@ -75,8 +71,6 @@ def save_presence():
         with open(file_path, "w") as file:
             json.dump(presence_data, file)
             status_label.config(text=f"Presence saved to {file_path}")
-
-# Function to load presence data from a file
 def load_presence():
     file_path = filedialog.askopenfilename(filetypes=[("JSON Files", "*.json")])
     if file_path:
@@ -131,15 +125,13 @@ def toggle_dark_mode():
     if dark_mode:
         background_color = "#333"
         foreground_color = "#EEE"
-        button_background_color = "black"  # Set button background to black
+        button_background_color = "black"
         button_foreground_color = "white"
     else:
         background_color = "white"
         foreground_color = "black"
         button_background_color = "#4CAF50"
         button_foreground_color = "white"
-
-    # Set palette and style for all relevant widgets
     root.tk_setPalette(background=background_color, foreground=foreground_color)
     style.configure("Custom.TLabel", foreground=foreground_color)
     style.configure("Custom.TEntry", background=background_color, foreground=foreground_color)
@@ -150,24 +142,16 @@ def toggle_dark_mode():
 
 root = tk.Tk()
 root.title("Discord Rich Presence")
-
-# Configure rows and columns to expand with the window
 root.grid_rowconfigure(0, weight=1)
 root.grid_columnconfigure(0, weight=1)
-
-# Define a custom style for ttk widgets
 style = ttk.Style()
-style.theme_use("clam")  # Set a different ttk theme
+style.theme_use("clam") 
 style.configure("Custom.TLabel", padding=5, font=("Arial", 12))
 style.configure("Custom.TEntry", padding=5, font=("Arial", 12))
 style.configure("Custom.TButton", padding=5, relief="raised", background="#4CAF50", borderwidth=1)
 style.configure("Round.TButton", padding=5, relief="raised", background="#4CAF50", borderwidth=1, foreground="white")
 style.configure("RoundDark.TButton", padding=5, relief="raised", background="#4CAF50", borderwidth=1, foreground="black")
-
-# Dark mode variable
 dark_mode_var = tk.BooleanVar(value=False)
-
-# Function to create labels and entry fields
 def create_label_entry(parent, text, row, col):
     label = ttk.Label(parent, text=text, style="Custom.TLabel")
     label.grid(row=row, column=col, sticky="w")
@@ -196,24 +180,16 @@ button2_label_entry = create_label_entry(root, "Button 2 Label:", row, 0)
 row += 1
 button2_url_entry = create_label_entry(root, "Button 2 URL:", row, 0)
 row += 1
-# Create "Update Presence" button with rounded corners
 update_button = ttk.Button(root, text="Update Presence", command=update_presence, style="Round.TButton")
 update_button.grid(row=row, column=0, columnspan=2, pady=(10, 20), sticky="w")
 stop_button = ttk.Button(root, text="Stop Presence", command=stop_presence, style="RoundStop.TButton")
 stop_button.grid(row=row, column=2, columnspan=2, pady=(10, 20), sticky="w")
 dark_mode_checkbutton = ttk.Checkbutton(root, text="Dark Mode", variable=dark_mode_var, command=toggle_dark_mode, style="Custom.TLabel")
 dark_mode_checkbutton.grid(row=0, column=3, padx=10)
-
-# Create status label
 status_label = ttk.Label(root, text="", style="Custom.TLabel")
 status_label.grid(row=row+1, column=0, columnspan=4)
-
-# Create a menu
 menu = tk.Menu(root)
 root.config(menu=menu)
-
-# Create the "File" menu
-
 file_menu = tk.Menu(menu)
 menu.add_cascade(label="File", menu=file_menu)
 file_menu.add_command(label="Save", command=save_presence)
