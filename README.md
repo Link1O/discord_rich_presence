@@ -1,6 +1,6 @@
 # Discord Rich Presence
 
-This script enables Discord Rich Presence functionality using the `discordrp` library.
+a discord rich presence application made with tkinter.
 
 ## Installation
 
